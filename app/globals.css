@@ -46,12 +46,17 @@ h1 { margin: 0; font-size: 1.5rem; letter-spacing: -0.015em; }
 .champ { width: 100%; font: inherit; font-size: 1.05rem; padding: 12px 14px; min-height: 48px; border-radius: 10px; border: 2px solid var(--line); background: var(--bg); color: var(--fg); }
 .champ:focus { outline: none; border-color: var(--accent); }
 .btn { font: inherit; font-weight: 700; min-height: 44px; padding: 8px 16px; border-radius: 10px; border: 2px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer; flex: none; }
-a.btn { display: inline-flex; align-items: center; text-decoration: none; }
+a.btn { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
 .btn.plein { background: var(--accent); color: var(--surface); width: 100%; font-size: 1.05rem; min-height: 48px; }
 .btn:disabled { opacity: .6; cursor: default; }
 .entete { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .sub a { color: inherit; }
 .lien { font: inherit; font-size: .9rem; background: none; border: 0; padding: 8px 0; color: var(--muted); text-decoration: underline; cursor: pointer; align-self: flex-start; }
+.row.sans-bac { grid-template-columns: 1fr; gap: 2px; }
+.premiere-maj::first-letter { text-transform: uppercase; }
+.coche { display: flex; gap: 12px; align-items: flex-start; font-size: .95rem; cursor: pointer; }
+.coche input { width: 24px; height: 24px; flex: none; accent-color: var(--accent); }
+.card a, .rule a { color: var(--accent); }
 .propositions { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
 .propositions li + li { border-top: 1px solid var(--line); }
 .propositions button { width: 100%; text-align: left; font: inherit; min-height: 48px; padding: 10px 14px; background: transparent; color: var(--fg); border: 0; cursor: pointer; }

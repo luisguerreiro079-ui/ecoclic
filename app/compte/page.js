@@ -84,6 +84,7 @@ export default function Compte() {
           <p className="eyebrow">Vous êtes connecté</p>
           <p className="adresse-texte">{session.user.email}</p>
           {role && <p className="rule">Type de compte : {ROLES[role] ?? role}</p>}
+          {role === "admin" && <Link href="/admin" className="btn plein">Ouvrir l'administration</Link>}
           <button type="button" className="btn" onClick={deconnecter}>Se déconnecter</button>
         </section>
       ) : etape === "email" ? (
