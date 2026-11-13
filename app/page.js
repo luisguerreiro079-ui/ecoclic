@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { POUBELLES, collectesDuJour, prochaineCollecte, ajouterJours, minuit } from "../lib/collectes";
 import { lireAdresseEnregistree, enregistrerAdresse } from "../lib/adresses";
 import RechercheAdresse from "./RechercheAdresse";
@@ -41,9 +42,12 @@ export default function Accueil() {
 
   return (
     <main className="wrap">
-      <header>
-        <h1>ÉcoClic</h1>
-        <p className="sub">Gournay-sur-Marne · collectes SIETREM</p>
+      <header className="entete">
+        <div>
+          <h1>ÉcoClic</h1>
+          <p className="sub">Gournay-sur-Marne · collectes SIETREM</p>
+        </div>
+        <Link href="/compte" className="btn">Mon compte</Link>
       </header>
 
       <RechercheAdresse adresse={adresse} onChoisir={choisirAdresse} />
