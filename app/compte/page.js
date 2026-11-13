@@ -4,8 +4,10 @@ import Link from "next/link";
 import { supabase, supabaseConfigure } from "../../lib/supabase";
 
 // Page « Mon compte ».
-// Connexion sans mot de passe : on saisit son e-mail, on reçoit un code, on le tape ici.
-// (Un code marche mieux qu'un lien quand l'appli est installée sur l'écran d'accueil.)
+// Connexion sans mot de passe : on saisit son e-mail, on reçoit un lien, on clique dessus.
+// À PRÉVOIR : quand ÉcoClic aura son propre service d'envoi d'e-mails (SMTP), remplacer
+// le lien par un code à taper (validerCode ci-dessous est déjà prêt). Un code marche
+// mieux quand l'appli est installée sur l'écran d'accueil, surtout sur iPhone.
 
 const ROLES = { habitant: "Habitant", moderateur: "Modérateur", admin: "Administrateur",
   professionnel: "Professionnel", commercant: "Commerçant" };
@@ -15,7 +17,7 @@ export default function Compte() {
   const [role, setRole] = useState(null);
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
-  const [etape, setEtape] = useState("email"); // email | code
+  const [etape, setEtape] = useState("email"); // email | envoye
   const [occupe, setOccupe] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -43,9 +45,11 @@ export default function Compte() {
     });
     setOccupe(false);
     if (error) setMessage(`L'envoi n'a pas marché : ${error.message}`);
-    else { setEtape("code"); setMessage(""); }
+    else { setEtape("envoye"); setMessage(""); }
   }
 
+  // Pas encore utilisé : servira quand l'e-mail contiendra un code (voir en haut du fichier).
+  // eslint-disable-next-line no-unused-vars
   async function validerCode(e) {
     e.preventDefault();
     setOccupe(true); setMessage("");
@@ -87,24 +91,23 @@ export default function Compte() {
           <label className="eyebrow" htmlFor="email">Votre adresse e-mail</label>
           <input id="email" className="champ" type="email" required autoComplete="email"
             placeholder="prenom.nom@exemple.fr" value={email} onChange={e => setEmail(e.target.value)} />
-          <p className="rule">Pas de mot de passe : nous vous envoyons un code par e-mail.</p>
+          <p className="rule">Pas de mot de passe : nous vous envoyons un lien de connexion par e-mail.</p>
           <button type="submit" className="btn plein" disabled={occupe}>
-            {occupe ? "Envoi…" : "Recevoir mon code"}
+            {occupe ? "Envoi…" : "Recevoir mon lien"}
           </button>
         </form>
       ) : (
-        <form className="card" onSubmit={validerCode}>
-          <label className="eyebrow" htmlFor="code">Code reçu par e-mail</label>
-          <p className="rule">Nous avons envoyé un code à {email.trim()}. Pensez à regarder dans les courriers indésirables.</p>
-          <input id="code" className="champ" type="text" inputMode="numeric" required
-            autoComplete="one-time-code" placeholder="123456" value={code} onChange={e => setCode(e.target.value)} />
-          <button type="submit" className="btn plein" disabled={occupe}>
-            {occupe ? "Vérification…" : "Valider"}
-          </button>
+        <section className="card">
+          <p className="eyebrow">E-mail envoyé</p>
+          <p className="adresse-texte">Ouvrez votre boîte mail et cliquez sur le lien « Sign in ».</p>
+          <p className="rule">
+            Nous l'avons envoyé à {email.trim()}. Il peut mettre une minute à arriver :
+            pensez à regarder dans les courriers indésirables.
+          </p>
           <button type="button" className="lien" onClick={() => { setEtape("email"); setCode(""); setMessage(""); }}>
             Changer d'adresse e-mail
           </button>
-        </form>
+        </section>
       )}
 
       {message && <p className="notice" role="alert">{message}</p>}

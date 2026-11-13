@@ -40,7 +40,7 @@ Cette commande :
 | `lib/adresses.js` | Recherche d'adresse (Base Adresse Nationale) et secteur de collecte |
 | `app/RechercheAdresse.js` | Bloc « Votre adresse » de l'écran d'accueil |
 | `lib/supabase.js` | Connexion à la base Supabase (valeurs dans `.env.local`, modèle dans `.env.example`) |
-| `app/compte/page.js` | Page « Mon compte » : connexion par code reçu par e-mail |
+| `app/compte/page.js` | Page « Mon compte » : connexion par lien reçu par e-mail |
 | `supabase/migrations/` | Structure de la base de données (phase 1) |
 | `supabase/seed.sql` | Données de départ de Gournay-sur-Marne pour la base |
 | `app/page.js` | Écran d'accueil |
