@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { POUBELLES, collectesDuJour, prochaineCollecte, ajouterJours, minuit } from "../lib/collectes";
+import { lireAdresseEnregistree, enregistrerAdresse } from "../lib/adresses";
+import RechercheAdresse from "./RechercheAdresse";
 
 const parId = Object.fromEntries(POUBELLES.map(p => [p.id, p]));
 const longue = d => d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
@@ -13,7 +15,10 @@ function Bac({ couleur }) {
 export default function Accueil() {
   // L'heure est lue dans le navigateur, pour éviter un décalage entre serveur et téléphone.
   const [maintenant, setMaintenant] = useState(null);
+  const [adresse, setAdresse] = useState(null);
+  const choisirAdresse = a => { setAdresse(a); enregistrerAdresse(a); };
   useEffect(() => {
+    setAdresse(lireAdresseEnregistree());
     setMaintenant(new Date());
     const t = setInterval(() => setMaintenant(new Date()), 5 * 60 * 1000);
     return () => clearInterval(t);
@@ -40,6 +45,8 @@ export default function Accueil() {
         <h1>ÉcoClic</h1>
         <p className="sub">Gournay-sur-Marne · collectes SIETREM</p>
       </header>
+
+      <RechercheAdresse adresse={adresse} onChoisir={choisirAdresse} />
 
       <section className="hero" aria-live="polite">
         {ceSoir.length ? (

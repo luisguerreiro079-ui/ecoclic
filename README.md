@@ -24,13 +24,23 @@ Pour arrêter : clique dans le terminal et appuie sur **Ctrl + C**.
 ```
 npm test
 ```
-Affiche les collectes des 30 prochains jours, à comparer avec le calendrier du SIETREM.
+Cette commande :
+1. contrôle automatiquement le moteur de calcul ;
+2. affiche les collectes des 30 prochains jours, à comparer avec le calendrier du SIETREM ;
+3. liste les collectes qui tombent un jour férié, à faire confirmer par le SIETREM.
 
 ## Organisation des fichiers
 
 | Fichier | Rôle |
 |---|---|
-| `lib/collectes.js` | Règles de collecte du SIETREM et exceptions officielles |
+| `docs/ARCHITECTURE.md` | Plan d'ensemble : modules, rôles, base de données, étapes |
+| `lib/calendrier/donnees-gournay.js` | Règles de collecte du SIETREM et exceptions officielles |
+| `lib/calendrier/moteur.js` | Calcul des dates de collecte à partir des règles |
+| `lib/collectes.js` | Relie les données de Gournay au moteur, pour l'écran d'accueil |
+| `lib/adresses.js` | Recherche d'adresse (Base Adresse Nationale) et secteur de collecte |
+| `app/RechercheAdresse.js` | Bloc « Votre adresse » de l'écran d'accueil |
+| `supabase/migrations/` | Structure de la base de données (phase 1) |
+| `supabase/seed.sql` | Données de départ de Gournay-sur-Marne pour la base |
 | `app/page.js` | Écran d'accueil |
 | `app/layout.js` | Cadre commun de l'appli (titre, icône) |
 | `app/manifest.js` | Fiche d'installation sur téléphone |
@@ -41,16 +51,20 @@ Affiche les collectes des 30 prochains jours, à comparer avec le calendrier du 
 
 - Les calendriers viennent uniquement de sources officielles (SIETREM).
 - **Aucun décalage de jour férié sans confirmation officielle.**
-  Les exceptions confirmées s'ajoutent dans `EXCEPTIONS` (`lib/collectes.js`), avec leur source.
+  Les exceptions confirmées s'ajoutent dans `EXCEPTIONS` (`lib/calendrier/donnees-gournay.js`), avec leur source.
 - Les signalements des habitants sont vérifiés avant toute modification.
+- On développe la phase 1 (poubelles) jusqu'au bout avant de commencer les autres modules.
 
 ## Étapes suivantes
 
-1. ✅ Squelette de l'appli (cette version)
-2. Mise en ligne avec GitHub et Vercel
-3. Base de données Supabase (communes, secteurs, règles, exceptions)
-4. Recherche d'adresse (Base Adresse Nationale)
-5. Comptes et réglages des rappels
-6. Notifications et bouton « Poubelle sortie »
-7. Espace administrateur et signalements
-8. RGPD, sauvegardes
+Le détail est dans `docs/ARCHITECTURE.md`.
+
+1. ✅ Squelette de l'appli
+2. ✅ Architecture, moteur de calendrier par règles, schéma de la base
+3. Mise en ligne avec GitHub et Vercel
+4. Création du projet Supabase, avec le schéma et les données de Gournay
+5. ✅ Recherche d'adresse (Base Adresse Nationale) — l'adresse est gardée sur l'appareil en attendant les comptes
+6. Comptes et réglages des rappels
+7. Notifications et bouton « Poubelle sortie »
+8. Espace administrateur et signalements
+9. Campagne de vérification sur 20 à 30 adresses, RGPD, sauvegardes
